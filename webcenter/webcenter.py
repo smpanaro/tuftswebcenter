@@ -26,8 +26,8 @@ class WebcenterSession:
     #---
     
     # Returns a list of the possible parameters for get_housing_groups_report.
-    def get_housing_locations(self):
-        html = self.session.get(self.GROUP_REPORT_URL).content
+    def get_housing_locations(self, html=None):
+        if not html: html = self.session.get(self.GROUP_REPORT_URL).content
         doc = lxhl.fromstring(html)
         options_list = doc.cssselect('select[name="LotteryDropDownList"]')[0]
         return [option_tag.text_content() for option_tag in options_list.cssselect('option')]
@@ -35,13 +35,15 @@ class WebcenterSession:
 
     # Returns a map of {group_size => [list of HousingGroups]}
     def get_housing_groups_report(self, location_name):
-        if location_name not in self.get_housing_locations():
+        base_html = self.session.get(self.GROUP_REPORT_URL).content
+
+        if location_name not in self.get_housing_locations(base_html):
             raise ValueError("Invalid housing location {}".format(location_name))
 
-        groups_viewstate = self._get_viewstate(self.session.get(self.GROUP_REPORT_URL).content)
-        groups_params = {'LotteryDropDownList': location_name, 'ShowGroupsButton': 'Show Groups', '__VIEWSTATE': groups_viewstate}
-        groups_resp = self.session.post(self.GROUP_REPORT_URL, data=groups_params)
-        return self._parse_groups(groups_resp.content)
+        viewstate = self._get_viewstate(base_html)
+        params = {'LotteryDropDownList': location_name, 'ShowGroupsButton': 'Show Groups', '__VIEWSTATE': viewstate}
+        resp = self.session.post(self.GROUP_REPORT_URL, data=params)
+        return self._parse_groups(resp.content)
 
     #---
     # Exams
@@ -59,10 +61,10 @@ class WebcenterSession:
         if department_name not in self.get_exam_departments(base_html):
             raise ValueError("Invalid exam department {}".format(department_name))
 
-        exams_viewstate = self._get_viewstate(base_html)
-        exams_params = {'DropDownList1': department_name, '__EVENTTARGET':'DropDownList1', '__EVENTARGUMENT': "", '__VIEWSTATE': exams_viewstate}
-        exams_resp = self.session.post(self.EXAM_URL, data=exams_params)
-        return self._parse_exams(exams_resp.content)
+        viewstate = self._get_viewstate(base_html)
+        params = {'DropDownList1': department_name, '__EVENTTARGET':'DropDownList1', '__EVENTARGUMENT': "", '__VIEWSTATE': viewstate}
+        resp = self.session.post(self.EXAM_URL, data=params)
+        return self._parse_exams(resp.content)
 
 
     #---
