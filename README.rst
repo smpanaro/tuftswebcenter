@@ -19,11 +19,12 @@ Why?
 Checking housing groups is slow. I just want to see where my group ranks!
 
 With the web interface:
-=> login
-=> select housing from dropdown 
-=> click view housing groups link
-=> pick Apartments from dropdown
-=> click Submit so the list loads
+::
+	=> login
+	=> select housing from dropdown 
+	=> click view housing groups link
+	=> pick Apartments from dropdown
+	=> click Submit so the list loads
 
 But now you can run a little script whenever you want to know.
 
@@ -34,7 +35,7 @@ But now you can run a little script whenever you want to know.
 	>>> print wc.get_housing_groups_reports("Apartment")
 
 
-If you want to bulk download the past exams for a course you can do that too.
+If you want to bulk download the past exams for a course you can do that too.(See if examples/download_exams.py fits your needs.)
 
 Installation
 ------------
