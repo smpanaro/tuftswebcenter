@@ -11,27 +11,30 @@ A quick and easy way to do things on Tufts' Webcenter portal (webcenter.students
 What can I do?
 --------------
 
-For now, you can get reports on housing lottery groups. Soon you'll be able to download past exams.
+For now, you can do two things: get reports on housing groups and download past exams.
 
 Why?
 ----
 
-I want to check if our housing group is going to get into Hillsides!
+Checking housing groups is slow. I just want to see where my group ranks!
 
 With the web interface:
 => login
 => select housing from dropdown 
-=> click view housing groups 
+=> click view housing groups link
 => pick Apartments from dropdown
 => click Submit so the list loads
 
-versus
+But now you can run a little script whenever you want to know.
 
 .. code-block:: pycon
 
 	>>> from webcenter.webcenter import *
 	>>> wc = WebcenterSession(mystudentid, mypin)
 	>>> print wc.get_housing_groups_reports("Apartment")
+
+
+If you want to bulk download the past exams for a course you can do that too.
 
 Installation
 ------------
