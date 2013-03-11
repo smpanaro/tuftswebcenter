@@ -45,7 +45,14 @@ Make a virtualenv (or not, but you should).
 .. code-block:: bash
 
 	$ pip install -r requirements.txt
+
+Examples
+--------
+
+.. code-block:: bash
+
 	$ cd examples
 	$ mv webcenter_credentials.py.example webcenter_credentials.py
 	$ vim webcenter_credentials.py
 	$ python list_apartments.py
+	$ python download_exams.py
